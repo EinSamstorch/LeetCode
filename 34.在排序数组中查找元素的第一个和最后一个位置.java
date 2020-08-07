@@ -36,7 +36,7 @@ class Solution {
     public int[] searchRange(int[] nums, int target) {
         int[] ans = {-1, -1};
         int lowerBound = searchLowerBound(nums, target);
-        if (lowerBound == nums.length || nums[lowerBound] != target) {
+                if (lowerBound == nums.length || nums[lowerBound] != target) {
             return ans;
         }
         int upperBound = searchUpperBound(nums, target);
@@ -53,16 +53,15 @@ class Solution {
      */
     private int searchLowerBound(int[] nums, int target) {
         int left = 0;
-        int right = nums.length;
-        while (left < right) {
+        int right = nums.length - 1;
+        while (left <= right) {
             int mid = (left + right)/2;
             if (nums[mid] >= target) {
-                right = mid;
+                right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
-        // 返回left或者right都没关系，因为中止条件是left == right
         return left;
     }
     
@@ -75,16 +74,16 @@ class Solution {
      */
     private int searchUpperBound(int[] nums, int target) {
         int left = 0;
-        int right = nums.length;
-        while (left < right) {
+        int right = nums.length - 1;
+        while (left <= right) {
             int mid = (left + right)/2;
             if (nums[mid] <= target) {
                 left = mid + 1;
             } else {
-                right = mid;
+                right = mid - 1;
             }
         }
-        return right - 1;
+        return right;
     }
 }
 
