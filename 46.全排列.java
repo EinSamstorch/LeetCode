@@ -80,7 +80,7 @@ class Solution {
             在 Java 中，因为都是值传递，对象类型变量在传参的过程中，复制的都是变量的地址。
             这些地址被添加到 res 变量，但实际上指向的是同一块内存地址，因此我们会看到 6 个空的列表对象。解决的方法很简单，在 res.add(path); 这里做一次拷贝即可。
             */
-            res.add(new LinkedList<>(path));
+            res.add(new ArrayList<>(path));
             return;
         }
 
