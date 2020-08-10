@@ -66,13 +66,13 @@ class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         Deque<Integer> path = new ArrayDeque<>();
         Arrays.sort(candidates);
-        backtrack(candidates, target, path);
+        backtrack(candidates, 0, target, path);
 
 
         return res;
     }
 
-    private void backtrack(int[] candidates, int target, Deque<Integer> path) {
+    private void backtrack(int[] candidates, int start, int target, Deque<Integer> path) {
         // 先判断结束条件
         if (target < 0) {
             return;
@@ -82,8 +82,9 @@ class Solution {
             res.add(new ArrayList<>(path));
             return;
         }
-        // 遍历选择列表,这个没有考虑到去重
-        for (int i = 0; i < candidates.length; i++) {
+        // 遍历选择列表,考虑去重
+        // 重复的原因是因为在较深的节点值考虑了之前考虑过的元素，因此我们需要设置“下一轮搜索的起点”即可
+        for (int i = start; i < candidates.length; i++) {
             // 这就是排序的好处，可以直接这样剪枝
             if (target < candidates[i]) {
                 break;
@@ -91,7 +92,7 @@ class Solution {
             // 做选择
             path.addLast(candidates[i]);
             // 进入到下一层决策树
-            backtrack(candidates, target - candidates[i], path);
+            backtrack(candidates, i, target - candidates[i], path);
             // 撤销选择
             path.removeLast();
         }
