@@ -36,13 +36,46 @@ import java.util.List;
 
 // @lc code=start
 class Solution {
+
+    /**
+     * 类似448.找到数组中消失的数字 原地hash
+     *
+     * @param nums 待遍历的数组
+     * @return 数组中重复的数据
+     */
     public List<Integer> findDuplicates(int[] nums) {
         List<Integer> res = new ArrayList<>();
         int len = nums.length;
         if (len == 0) {
             return res;
         }
-        
+
+        for (int i = 0; i < len; i++) {
+            // 处理值变为新指针。数值为i的数字映射到下标 i - 1的位置上
+            int newIndex = Math.abs(nums[i]) - 1;
+            // 如果位置 i - 1上的数字已经为负数，则找到
+            if (nums[newIndex] < 0) {
+                res.add(Math.abs(newIndex + 1));
+            }
+            nums[newIndex] = -nums[newIndex];
+        }
+        return res;
+    }
+
+
+    /**
+     * 类似41.缺失第一个正数的解法，需要交换数组
+     *
+     * @param nums 待遍历的数组
+     * @return 数组中重复的数据
+     */
+    public List<Integer> findDuplicates2(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        int len = nums.length;
+        if (len == 0) {
+            return res;
+        }
+
         // 对数组自己做哈希：数值为i的数字映射到下标 i - 1的位置
         for (int i = 0; i < len; i++) {
             // 在指定范围内，如果数字并且没有放在正确的位置上，才交换
