@@ -80,6 +80,7 @@ class Solution {
                 break;
             }
             // 小剪枝，去重。类似于question47，全排2
+            // 同样，排序后才能这样剪枝。
             if (i > start && candidates[i] == candidates[i - 1]) {
                 continue;
             }
