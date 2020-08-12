@@ -60,7 +60,7 @@ class Solution {
      */
     public int firstMissingPositive(int[] nums) {
         int len = nums.length;
-
+        // 对数组自己做哈希：数值为i的数字映射到下标 i - 1的位置
         for (int i = 0; i < len; i++) {
             while (nums[i] > 0 && nums[i] <= len && nums[nums[i] - 1] != nums[i]) {
                 // 满足在指定范围内、并且没有放在正确的位置上，才交换
@@ -84,7 +84,6 @@ class Solution {
         nums[index1] = nums[index2];
         nums[index2] = temp;
     }
-
 
 
     /**
