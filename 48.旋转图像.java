@@ -98,12 +98,14 @@ class Solution {
             int add = 0;
             while (add < pos2 - pos1) {
                 // 左上角为0块，右上角为1块，右下角为2块，左下角为3块
-                int temp = matrix[pos2 - add][pos1];
+                int temp = matrix[pos1][pos1 + add];
+                // 1 = 2
+                matrix[pos1][pos1 + add] = matrix[pos2 - add][pos1];
                 // 3 = 2
                 matrix[pos2 - add][pos1] = matrix[pos2][pos2 - add];
                 // 2 = 1
                 matrix[pos2][pos2 - add] = matrix[pos1 + add][pos2];
-                // 1 = 0
+                // 1 = temp
                 matrix[pos1 + add][pos2] = temp;
                 add++;
             }
@@ -112,6 +114,7 @@ class Solution {
 
         }
     }
+
 }
 // @lc code=end
 
