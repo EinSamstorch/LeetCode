@@ -69,6 +69,7 @@ class Solution {
         if (intervals.length < 2) {
             return intervals;
         }
+        // 按照区间左侧值排序
         Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
         merged.add(intervals[0]);
 
@@ -77,9 +78,11 @@ class Solution {
             curInterval = intervals[i];
             int left = curInterval[0];
             int right = curInterval[1];
+            // 如果没有重叠，直接加入
             if (merged.getLast()[1] < left) {
                 merged.add(curInterval);
             } else {
+                // 有重叠的话，先取出掉merged数组中最后一个，然后和当前区间比较右侧最大值，取最大
                 curInterval = merged.removeLast();
                 curInterval[1] = Math.max(curInterval[1], right);
                 merged.add(curInterval);
