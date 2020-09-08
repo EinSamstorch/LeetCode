@@ -51,9 +51,13 @@
  * 
  */
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 // @lc code=start
 class Solution {
-    public int[] nextGreaterElement(int[] findNums, int[] nums) {
+    public int[] nextGreaterElement2(int[] findNums, int[] nums) {
         int[] result = new int[findNums.length];
 
         for (int i = 0; i < findNums.length; i++) {
@@ -77,6 +81,38 @@ class Solution {
         }
         return result;
     }
+
+    public int[] nextGreaterElement(int[] findNums, int[] nums) {
+        int[] result = new int[findNums.length];
+
+        Map<Integer, Integer> map = nextGreaterHelper(nums);
+        for (int i = 0; i < findNums.length; i++) {
+            result[i] = map.get(findNums[i]);
+        }
+
+        return result;
+    }
+
+    private Map<Integer, Integer> nextGreaterHelper(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        // 存放高个子元素的栈
+        Stack<Integer> stack = new Stack<>();
+
+        // 倒着往栈里面放
+        for (int i = nums.length - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && stack.peek() <= nums[i]) {
+                // 矮个子起开
+                stack.pop();
+            }
+
+            // 当前元素身后的第一个高个
+            map.put(nums[i], stack.isEmpty() ? -1 : stack.peek());
+            // 进队，接受之后的身高判定
+            stack.push(nums[i]);
+        }
+        return map;
+    }
+
 }
 
 // @lc code=end

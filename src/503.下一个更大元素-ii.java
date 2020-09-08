@@ -55,6 +55,21 @@ class Solution {
     
             return res;
         }
+
+        public static int[] nextGreaterElements2(int[] nums) {
+            Stack<Integer> stack = new Stack<>();
+            int[] res = new int[nums.length];
+            for (int i = 2 * nums.length - 1; i >= 0; i--) {
+                int index = i % nums.length;
+                // 维护一个单调栈，栈顶到栈底单调不降
+                while(!stack.isEmpty() && nums[stack.peek()] <= nums[index]) {
+                    stack.pop();
+                }
+                res[index] = stack.isEmpty() ? -1 : stack.peek();
+                // 栈中保存的是索引
+                stack.push(index);
+            }
+        }
     
 
 
