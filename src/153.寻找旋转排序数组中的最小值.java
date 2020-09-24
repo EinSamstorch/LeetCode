@@ -38,15 +38,16 @@ class Solution {
     public int findMin(int[] nums) {
         int min = Integer.MAX_VALUE;
         int left = 0, right = nums.length - 1;
-        while(left <= right){
+        while (left <= right) {
             int mid = left + (right - left) / 2;
-            if(nums[left] <= nums[mid]){ //左边有序
-                min = Math.min(min,nums[left]);
+            if (nums[left] <= nums[mid]) { //左边有序
+                min = Math.min(min, nums[left]);
                 left = mid + 1; //看右边
-            }else{ //右边有序
-                min = Math.min(min,nums[mid]);
+            } else { //右边有序
+                min = Math.min(min, nums[mid]);
                 right = mid - 1; //看左边
             }
+            5 1234
         }
         return min;
     }
