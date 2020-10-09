@@ -38,6 +38,9 @@
 
 // @lc code=start
 class Solution {
+    /**
+     * 寻找变化点的方法
+     */
     public int search(int[] nums, int target) {
         int lo = 0, hi = nums.length - 1, mid;
 
