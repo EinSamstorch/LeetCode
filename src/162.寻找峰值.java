@@ -43,17 +43,24 @@
 
 // @lc code=start
 class Solution {
+    
+    /**
+     * 线性扫描法
+     * 因为 nums[-1] 看做负无穷，所以从第 0 个元素开始，它一定是上升的趋势，由于我们要找峰顶，所以当它第一次出现下降，下降前的值就是我们要找的了。
+     */
     public int findPeakElement1(int[] nums) {
         for (int i = 0; i < nums.length - 1; i++) {
+            // 第一次下降
             if (nums[i] > nums[i + 1]) {
                 return i;
             }
         }
+        // 一直上升的话，返回最后一个
         return nums.length - 1;
     }
 
     /**
-     * 递归法
+     * 递归法 二分
      */
     public int findPeakElement2(int[] nums) {
         return serach(nums, 0, nums.length - 1);
@@ -71,16 +78,22 @@ class Solution {
     }
 
     /**
-     * 迭代法
+     * 迭代法 二分
      */
     public int findPeakElement(int[] nums) {
         int left = 0;
+        // 此处right为nums.length - 1
+        // 考虑极端情况下，nums序列单调递增，不断更新left = mid + 1， 最后left == len - 1， mid + 1越界
         int right = nums.length - 1;
+        // 当left == right时退出循环
         while (left < right) {
             int mid = (left + right) / 2;
+            // 如果中间元素恰好处于一个降序或者局部下降坡度中，则说明峰值元素会在本元素的左边
+            // 包括其本身
             if (nums[mid] > nums[mid + 1]) {
                 right = mid;
             } else {
+                // 如果中间元素处于一个上升坡度或者局部上升坡度中，说明峰值元素会在本元素右边
                 left = mid + 1;
             }
         }
