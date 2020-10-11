@@ -50,7 +50,8 @@ class Solution {
     /**
      * 暴力解法
      */
-    public void rotate1(int[] nums, int k) {
+    public void rotate(int[] nums, int k) {
+        k = k % nums.length;
         // 旋转k次，每次将数组旋转一个元素
         for (int i = 0; i < k; i++) {
             int previous = nums[nums.length - 1];
@@ -74,7 +75,7 @@ class Solution {
         System.arraycopy(ans, 0, nums, 0, nums.length);
     }
 
-    public void rotate(int[] nums, int k) {
+    public void rotate3(int[] nums, int k) {
         int len = nums.length;
         k = k % len;
         // 记录交换位置的次数，n个同学一共需要换n次
