@@ -93,7 +93,6 @@ class Solution {
         }
         return set.size() < 3 ? set.last() : set.first();
     }
-
 }
 // @lc code=end
 
