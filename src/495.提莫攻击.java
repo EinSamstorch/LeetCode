@@ -62,11 +62,12 @@ class Solution {
 
         for (int i = 0; i < timeSeries.length - 1; i++) {
             int interval = timeSeries[i + 1] - timeSeries[i];
-            if (interval >= duration) {
-                ans += duration;
-            } else {
-                ans += interval;
-            }
+            // if (interval >= duration) {
+            //     ans += duration;
+            // } else {
+            //     ans += interval;
+            // }
+            ans += Math.min(interval, duration);
         }
         return ans + duration;
 
