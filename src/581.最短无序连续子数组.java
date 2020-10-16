@@ -70,38 +70,6 @@ class Solution {
         return true;
     }
 
-    // 题解那抄的第一种暴力解法，也超时了
-    public int findUnsortedSubarray2(int[] nums) {
-        int res = nums.length;
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i; j <= nums.length; j++) {
-                int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE, prev = Integer.MIN_VALUE;
-                for (int k = i; k < j; k++) {
-                    min = Math.min(min, nums[k]);
-                    max = Math.max(max, nums[k]);
-                }
-                if ((i > 0 && nums[i - 1] > min) || (j < nums.length && nums[j] < max))
-                    continue;
-                int k = 0;
-                while (k < i && prev <= nums[k]) {
-                    prev = nums[k];
-                    k++;
-                }
-                if (k != i)
-                    continue;
-                k = j;
-                while (k < nums.length && prev <= nums[k]) {
-                    prev = nums[k];
-                    k++;
-                }
-                if (k == nums.length) {
-                    res = Math.min(res, j - i);
-                }
-            }
-        }
-        return res;
-    }
-
     // 找到最左边不在正确位置得边界和最右边不在正确位置的边界
     // 找逆序对
     public int findUnsortedSubarray3(int[] nums) {
@@ -121,6 +89,7 @@ class Solution {
     // 将数组nums进行排序，记为nums_sorted,然后比较nums和nums_sorted的元素
     // 来决定最左边和最右边不匹配的元素
     public int findUnsortedSubarray4(int[] nums) {
+        // 原来复制数组这样就可以了，这个最简单
         int[] copyNums = nums.clone();
         Arrays.sort(copyNums);
         int start = nums.length;
