@@ -91,7 +91,7 @@ class Solution {
             }
             // 做选择
             path.addLast(candidates[i]);
-            // 进入到下一层决策树
+            // 进入到下一层决策树, 由于candidates中数字可以重复使用，所以下一轮的搜索起点仍然是i
             backtrack(candidates, i, target - candidates[i], path);
             // 撤销选择
             path.removeLast();
