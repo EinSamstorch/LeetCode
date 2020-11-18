@@ -70,8 +70,6 @@ class Solution {
             // 现 k 没有必要每次都从 j + 1 开始。而是从上次找到的 k 值开始就行。
             // 原因很简单， 当 nums[i] + nums[j] > nums[k] 时，我们想要找到下一个满足 nums[i] + nums[j] > nums[k] 的 新的 k 值
             // 由于进行了排序，因此这个 k 肯定比之前的大（单调递增性），因此上一个 k 值之前的数都是无效的，可以跳过。
-
-
             int k = i + 2;
             for (int j = i + 1; j < nums.length - 1; j++) {
                 while (k < nums.length && nums[i] + nums[j] > nums[k]) {
@@ -89,34 +87,29 @@ class Solution {
      * 2.固定最短的两条边，二分查找最后一个小于两边之和的位置，
      * 可以求得固定两条边长之和满足条件的结果。枚举结束后，总和就是答案。
      */
-    public int triangleNumber3(int[] nums) {
+    public int triangleNumber(int[] nums) {
         int ans = 0;
         int n = nums.length;
         Arrays.sort(nums);
+
         
         for (int i = 0; i < n - 2; i++) {
+            if (nums[i] == 0) {
+                continue;
+            }
             for (int j = i + 1; j < n - 1; j++) {
                 // 固定两条短边，二分查找最后一个小于两边之和的位置
                 int sum = nums[i] + nums[j];
-                int left = j + 1, right = n - 1;
-                while (left < right) {
-                    int mid = (left + right + 1) / 2;
-                    if (nums[mid] < sum) {
-                        left = mid;
-                    } else if (nums[mid] >= sum) {
+                // 找左侧边界
+                int left = j, right = n - 1;
+                while (left <= right) {
+                    int mid = (left + right) / 2;
+                    if (nums[mid] >= sum) {
                         right = mid - 1;
+                    } else {
+                        left = mid + 1;
                     }
                 }
-                // int left = j, right = n - 1;
-                // while (left <= right) {
-                //     int mid = left + (right - left) / 2;
-                //     if (nums[mid] <= sum) {
-                //         left = mid + 1;
-                //     } else if (nums[mid] > sum) {
-                //         right = mid - 1;
-                //     }
-                // }
-
 
                 if (sum > nums[right]) {
                     ans += right - j;
@@ -134,7 +127,7 @@ class Solution {
         枚举结束后，总和就是答案。
         时间复杂度为 O(n^2)
      */
-    public int triangleNumber(int[] nums) {
+    public int triangleNumber3(int[] nums) {
         Arrays.sort(nums);
         int n = nums.length;
         int res = 0;
