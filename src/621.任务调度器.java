@@ -76,7 +76,7 @@ class Solution {
         return time;
     }
 
-    public int leastInterval(char[] tasks, int n) {
+    public int leastInterval2(char[] tasks, int n) {
         int[] map = new int[26];
         for (char c : tasks)
             map[c - 'A']++;
@@ -106,5 +106,34 @@ class Solution {
         }
         return time;
     }
+
+    /**
+     * 填桶思路
+     * 卧槽，这个方法太巧妙了吧
+     */
+    public int leastInterval(char[] tasks, int n) {
+        int[] counts = new int[26];
+        for (char c : tasks) {
+            counts[c - 'A']++;
+        }
+
+        // max是桶的行数
+        int max = 0;
+        for (int count : counts) {
+            max = Math.max(max, count);
+        }
+
+        // maxCount是最后一行的列数
+        int maxCount = 0;
+        for (int count : counts) {
+            if (count == max) {
+                maxCount++;
+            }
+        }
+        
+        return Math.max((n + 1) * (max - 1) + maxCount, tasks.length);
+
+    }
+
 }
 // @lc code=end
