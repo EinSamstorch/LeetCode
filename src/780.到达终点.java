@@ -118,17 +118,19 @@ class Solution {
             if (tx == ty) {
                 break;
             }
-            if (tx > ty) {
+            if (tx > ty) { // tx大，减tx
                 if (ty > sy) {
                     tx %= ty;
                 } else {
-                    return (tx - sx) % ty == 0;
+                    // 此时ty == sy了，到边界了，不可以减了，只需要看tx和边界的差值能不能整除sy了
+                    // 这边的sy也可以换成ty
+                    return (tx - sx) % sy == 0;
                 }
             } else {
                 if (tx > sx) {
                     ty %= tx;
                 } else {
-                    return (ty - sy) % tx == 0;
+                    return (ty - sy) % sx == 0;
                 }
             }
         }
