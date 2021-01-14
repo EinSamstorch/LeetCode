@@ -82,7 +82,7 @@ class Solution {
     }
 
     // 暴力枚举  超时了
-    public int subarrayBitwiseORs(int[] arr) {
+    public int subarrayBitwiseORs2(int[] arr) {
         int n = arr.length;
         Set<Integer> ans = new HashSet<>();
 
@@ -92,6 +92,25 @@ class Solution {
             for (int j = i + 1; j < n; j++) {
                 temp |= arr[j];
                 ans.add(temp);
+            }
+        }
+        return ans.size();
+    }
+
+    public int subarrayBitwiseORs(int[] arr) {
+        int n = arr.length;
+        Set<Integer> ans = new HashSet<>();
+
+        for (int i = 0; i < n; i++) {
+            ans.add(arr[i]);
+            for (int j = i - 1; j >= 0; j--) {
+                // 剪枝
+                if ((arr[i] | arr[j]) == arr[j]) {
+                    break;
+                }
+                // 复用
+                arr[j] |= arr[i];
+                ans.add(arr[j]);
             }
         }
         return ans.size();
