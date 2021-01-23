@@ -59,7 +59,10 @@ class Solution {
 
     private TreeNode build(int[] preorder, int preStart, int perEnd, 
                         int[] inorder, int inStart, int inEnd) {
-        if (preStart > perEnd) {
+        // if (preStart > perEnd) {
+        //     return null;
+        // }
+        if (inStart > inEnd) {
             return null;
         }
         // root对应节点就是前序遍历数组的第一个元素
