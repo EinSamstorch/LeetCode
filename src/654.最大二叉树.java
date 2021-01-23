@@ -63,6 +63,8 @@
 
 // @lc code=start
 
+import javax.swing.tree.TreeNode;
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
