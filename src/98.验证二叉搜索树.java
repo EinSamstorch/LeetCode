@@ -54,19 +54,10 @@ import javax.swing.tree.TreeNode;
 
 // @lc code=start
 /**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
+ * Definition for a binary tree node. public class TreeNode { int val; TreeNode
+ * left; TreeNode right; TreeNode() {} TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) { this.val = val; this.left
+ * = left; this.right = right; } }
  */
 class Solution {
     /**
@@ -87,22 +78,24 @@ class Solution {
         if (upper != null && val >= upper) {
             return false;
         }
-        // 递归调用右子树的时候，我们需要把下界lower改为root.val 
-        if (!helper(node.right, val, upper)) {
-            return false;
-        }
-        // 递归调用左子树的时候， 将上界upper改为root.val
-        if (!helper(node.left, lower, val)) {
-            return false;
-        }
-        return true;
+        // // 递归调用右子树的时候，我们需要把下界lower改为root.val
+        // if (!helper(node.right, val, upper)) {
+        //     return false;
+        // }
+        // // 递归调用左子树的时候， 将上界upper改为root.val
+        // if (!helper(node.left, lower, val)) {
+        //     return false;
+        // }
+        // return true;
+
+        return helper(node.right, val, upper) && helper(node.left, lower, val);
     }
 
     /**
      * 根据二叉搜索树的性质，中序遍历的结果是单调递增的
      * @param root
      */
-    public isValidBST(TreeNode root) {
+    public boolean isValidBST2(TreeNode root) {
         Deque<TreeNode> stack = new ArrayDeque<>();
         double inorder = -Double.MAX_VALUE;
 
@@ -119,9 +112,8 @@ class Solution {
             inorder = root.val;
             root = root.right;
         }
+        return true;
     }
-
 
 }
 // @lc code=end
-
