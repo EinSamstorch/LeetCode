@@ -82,7 +82,7 @@ class Solution {
         }
     }
 
-    public ListNode mergeTwoList(ListNode l1, ListNode l2) {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         // 哨兵节点，用于返回合并后的链表
         ListNode prehead = new ListNode(-1);
         ListNode prev = prehead;
@@ -99,6 +99,7 @@ class Solution {
         }
         // 合并后l1和l2最多只有一个还未被合并完，我们直接将链表末尾指向未合并完的链表即可。
         prev.next = l1 == null ? l2 : l1;
+        return prehead.next;
     }
 }
 // @lc code=end
