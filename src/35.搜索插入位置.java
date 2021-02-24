@@ -45,7 +45,10 @@
 
 // @lc code=start
 class Solution {
-    public int searchInsert(int[] nums, int target) {
+    /**
+     * 区间内搜索得方式
+     */
+    public int searchInsert1(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
 
@@ -55,6 +58,45 @@ class Solution {
                 right = mid - 1;
             } else {
                 left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 俩边逼近排除的方式
+     */
+    public int searchInsert2(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        if (nums[nums.length - 1] < target) {
+            return nums.length;
+        }
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 两边逼近排除的方式
+     */
+    public int searchInsert(int[] nums, int target) {
+        int left = 0;
+        // 由于下标为
+        int right = nums.length;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid;
             }
         }
         return left;

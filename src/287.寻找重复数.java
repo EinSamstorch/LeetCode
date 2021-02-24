@@ -44,10 +44,10 @@ class Solution {
     /**
      * 二分法，结合抽屉原理
      * 以 [2, 4, 5, 2, 3, 1, 6, 7] 为例，一共 8 个数，n + 1 = 8，n = 7，根据题目意思，每个数都在 1 和 7 之间。
-例如：区间 [1, 7]的中位数是 4，遍历整个数组，统计小于等于 4 的整数的个数，如果不存在重复元素，最多为 4个。
-等于 4的时候区间 [1, 4]内也可能有重复元素。但是，如果整个数组里小于等于 4 的整数的个数严格大于 4 的时候，就可以说明重复的数存在于区间 [1, 4]。
+    例如：区间 [1, 7]的中位数是 4，遍历整个数组，统计小于等于 4 的整数的个数，如果不存在重复元素，最多为 4个。
+    等于 4的时候区间 [1, 4]内也可能有重复元素。但是，如果整个数组里小于等于 4 的整数的个数严格大于 4 的时候，就可以说明重复的数存在于区间 [1, 4]。
      */
-    public int findDuplicate(int[] nums) {
+    public int findDuplicate1(int[] nums) {
         int len = nums.length;
         int left = 1, right = len - 1;
 
@@ -63,6 +63,29 @@ class Solution {
                 left = mid + 1;
             } else {
                 right = mid - 1;
+            }
+        }
+        return left;
+    }
+
+    public int findDuplicate(int[] nums) {
+        int len = nums.length;
+        int left = 1, right = len - 1;
+        while (left < right) {
+            // 在 Java 里可以这么用，当 left + right 溢出的时候，无符号右移保证结果依然正确
+            int mid = (left + right) >>> 1;
+            int count = 0;
+            for (int num : nums) {
+                if (num <= mid) {
+                    count++;
+                }
+            }
+            // 根据抽屉原理，小于等于4的个数，如果大于4
+            // 那么重复元素一定出现在[1, 4]区间中
+            if (count > mid) {
+                right = mid;
+            } else {
+                left = mid + 1;
             }
         }
         return left;

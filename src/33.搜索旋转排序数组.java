@@ -41,7 +41,7 @@ class Solution {
     /**
      * 寻找变化点的方法
      */
-    public int search(int[] nums, int target) {
+    public int search1(int[] nums, int target) {
         int lo = 0, hi = nums.length - 1, mid;
 
         // 将数组分为左右两个有序区间，mid一定会落在其中一个有序区间中
@@ -53,7 +53,7 @@ class Solution {
             // 循环条件是lo <= high， 所以mid会等于low
             // 先根据 nums[mid] 与 nums[lo] 的关系判断 mid 是在左段还是右段
             if (nums[mid] >= nums[lo]) {
-//                前面已经判断了mid是否等于target，所以这边target不需要等于mid了。
+                //前面已经判断了mid是否等于target，所以这边target不需要等于mid了。
                 // 再判断 target 是在 mid 的左边还是右边，从而调整左右边界 lo 和 hi
                 if (target >= nums[lo] && target < nums[mid]) {
                     hi = mid - 1;
@@ -69,7 +69,30 @@ class Solution {
             }
         }
         return -1;
+    }
 
+    public int search(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            // 左半部分有序
+            if (nums[left] <= nums[mid]) {
+                if (nums[left] <= target && target <= nums[mid]) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            } else {
+                // 右半部分有序
+                if (nums[mid + 1] <= target && target <= nums[right]) {
+                    left = mid + 1;
+                } else {
+                    right = mid;
+                }
+            }
+        }
+        return nums[left] == target ? left : -1;
     }
 }
 // @lc code=end

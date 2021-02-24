@@ -36,7 +36,7 @@ class Solution {
     public int[] searchRange(int[] nums, int target) {
         int[] ans = {-1, -1};
         int lowerBound = searchLowerBound(nums, target);
-                if (lowerBound == nums.length || nums[lowerBound] != target) {
+        if (lowerBound == nums.length || nums[lowerBound] != target) {
             return ans;
         }
         int upperBound = searchUpperBound(nums, target);
@@ -46,12 +46,12 @@ class Solution {
     }
 
     /**
-     * 找到目标数在最左边出现的位置
+     * 找到目标数在最左边出现的位置1
      * @param nums 待寻找的数组
      * @param target 目标数
      * @return 目标数第一次出现的位置
      */
-    private int searchLowerBound(int[] nums, int target) {
+    private int searchLowerBound1(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
         while (left <= right) {
@@ -64,15 +64,35 @@ class Solution {
         }
         return left;
     }
+
+    /**
+     * 找到目标数在最左边出现的位置2
+     * @param nums 待寻找的数组
+     * @param target 目标数
+     * @return 目标数第一次出现的位置
+     */
+    private int searchLowerBound(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length;
+        while (left < right) {
+            int mid = (left + right)/2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
     
 
     /**
-     * 找到目标数在最右边出现的位置
+     * 找到目标数在最右边出现的位置1
      * @param nums 待寻找的数组
      * @param target 目标数
      * @return 目标数最后第一次出现的位置
      */
-    private int searchUpperBound(int[] nums, int target) {
+    private int searchUpperBound1(int[] nums, int target) {
         int left = 0;
         int right = nums.length - 1;
         while (left <= right) {
@@ -84,6 +104,26 @@ class Solution {
             }
         }
         return right;
+    }
+
+    /**
+     * 找到目标数在最右边出现的位置2
+     * @param nums 待寻找的数组
+     * @param target 目标数
+     * @return 目标数最后第一次出现的位置
+     */
+    private int searchUpperBound(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length;
+        while (left < right) {
+            int mid = (left + right)/2;
+            if (nums[mid] > target) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right - 1;
     }
 }
 
