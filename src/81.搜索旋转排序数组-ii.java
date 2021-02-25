@@ -94,9 +94,9 @@ class Solution {
 
         while (left < right) {
             int mid = left + (right - left) / 2;
-            // if (nums[mid] == target) {
-            //     return true;
-            // }
+            if (nums[mid] == target) {
+                return true;
+            }
             if (nums[left] < nums[mid]) {
                 // 落在前有序数组里
                 if (nums[left] <= target && target <= nums[mid]) {
