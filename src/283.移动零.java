@@ -52,7 +52,7 @@ class Solution {
      * 参考快排的思想，快排是选定一个中间点x，将所有小于等于x的元素放左边，大于x的元素放x的右边
      * 本题选择0当中间点，不等于0的放左边，等于0的放右边
      */
-    public void moveZeroes(int[] nums) {
+    public void moveZeroes2(int[] nums) {
         int len = nums.length;
         if (nums == null || len == 0) {
             return;
@@ -64,6 +64,23 @@ class Solution {
                 nums[i] = nums[j];
                 nums[j++] = temp;
             }
+        }
+    }
+
+    /**
+     * 双指针
+     */
+    public void moveZeros(int[] nums) {
+        int len = nums.length;
+        int index = 0;
+        for (int i = 0; i < len; i++) {
+            if (nums[i] != 0) {
+                nums[index] = nums[i];
+                index++;
+            }
+        }
+        for (int i = index; i < len; i++) {
+            nums[i] = 0;
         }
     }
 }

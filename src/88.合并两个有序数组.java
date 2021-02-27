@@ -79,7 +79,7 @@ class Solution {
     /**
      * 三指针，从后往前
      */
-    public void merge(int[] nums1, int m, int[] nums2, int n) {
+    public void merge3(int[] nums1, int m, int[] nums2, int n) {
         // two get pointers for nums1 and nums2
         int p1 = m - 1;
         int p2 = n - 1;
@@ -91,6 +91,29 @@ class Solution {
         }
 
         System.arraycopy(nums2, 0, nums1, 0, p2 + 1);
+    }
+
+    /**
+     * 双指针，这就和归并排序那差不多
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int p1 = 0, p2 = 0;
+        int[] sorted = new int[m + n];
+
+        for (int i = 0; i < sorted.length; i++) {
+            if (p1 == m) {
+                sorted[i] = nums2[p2++];
+            } else if (p2 == n) {
+                sorted[i] = nums1[p1++];
+            } else if (nums1[p1] < nums2[p2]) {
+                sorted[i] = nums1[p1++];
+            } else {
+                sorted[i] = nums2[p2++];
+            }
+        }
+        for (int i = 0; i < m + n; i++) {
+            nums1[i] = sorted[i];
+        }
     }
 }
 // @lc code=end

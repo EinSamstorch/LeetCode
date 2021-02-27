@@ -1,40 +1,65 @@
 public class Test {
 
-    public boolean search(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return false;
-        }
-        int left = 0;
-        int right = nums.length - 1;
+   public int reversePairs(int[] nums) {
+       int len = nums.length;
+       if (len < 2) {
+           return 0;
+       }
+       int[] copy = nums.clone();
+       int[] temp = new int[len];
+       
+       return reversePairs(copy, 0, len - 1, temp);
+   }
 
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-            // if (nums[mid] == target) {
-            //     return true;
-            // }
-            if (nums[left] < nums[mid]) {
-                // 落在前有序数组里
-                if (nums[left] <= target && target <= nums[mid]) {
-                    right = mid;
-                } else {
-                    left = mid + 1;
-                }
-            } else if (nums[mid] < nums[left]) {
-                // 落在后有序数组中
-                if (nums[mid] < target && target <= nums[right]) {
-                    left = mid + 1;
-                } else {
-                    right = mid;
-                }
-            } else if (nums[left] == nums[mid]) {
-                left++;
-            }
+   /**
+    * nums[left, right]计算逆序对个数，并且排序
+    */
+    private int reversePairs(int[] nums, int left, int right, int[] temp) {
+        if (left == right) {
+            return 0;
         }
-        // 后处理，夹逼以后，还要判断一下，是不是target
-        return nums[left] == target;
-    }
+        int mid = (left + right) >>> 1;
+        int leftPairs = reversePairs(nums, left, mid, temp);
+        int rightPairs = reversePairs(nums, mid + 1, right, temp);
 
-    public static void main(String[] args) {
+        // 如果整个数组已经有序，则无需合并
+        if (nums[mid] <= nums[mid + 1]) {
+            return leftPairs + rightPairs;
+        }
+        
+        int crossPairs = mergeAndCount(nums, left, mid, right, temp);
+        return leftPairs + rightPairs + crossPairs;
+   }
+
+   /**
+    * nums[left, mid]有序， nums[mid + 1, right]有序
+    */
+   private int mergeAndCount(int[] nums, int left, int mid, int right, int[] temp) {
+       for (int i = left; i <= right; i++) {
+           temp[i] = nums[i];
+       }
+       int i = left;
+       int j = mid + 1;
+       int count = 0;
+
+       for (int k = left; k <= right; k++) {
+           if (i == mid + 1) {
+               nums[k] = temp[j++];
+           } else if (j == right + 1) {
+               nums[k] = temp[i++];
+           } else if (temp[i] <= temp[j]) {
+               nums[k] = temp[i++];
+           } else {
+               nums[k] = temp[j++];
+               // 在j指向的元素归并回去的时候，计算逆序对的个数，只多了这一行代码
+               count += mid - i + 1;
+           }
+       }
+
+       return count;
+   }
+
+   public static void main(String[] args) {
         Test test = new Test();
         int[] nums = {1, 0, 1, 1, 1};
         int target = 0;

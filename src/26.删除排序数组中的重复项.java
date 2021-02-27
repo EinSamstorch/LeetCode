@@ -6,28 +6,8 @@
 
 // @lc code=start
 class Solution {
-    /**
-     * 双指针，同向指针，一个快一个慢
-     *
-     * @param nums 数组
-     * @return 不同元素得个数
-     */
-    public int removeDuplicates(int[] nums) {
-        // 1.定义[0,index)表示修改后得数组，即不重复元素
-        int index = 0;
-        // 2.终止条件
-        for (int i = 0; i < nums.length; i++) {
-            // 3.指针运动条件
-            if (index == 0 || nums[index - 1] != nums[i]) {
-                nums[index] = nums[i];
-                index++;
-            }
-        }
-        // 4. 根据定义确定返回值
-        return index;
-    }
 
-    public int removeDuplicates3(int[] nums) {
+    public int removeDuplicates(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
