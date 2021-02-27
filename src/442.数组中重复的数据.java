@@ -64,7 +64,7 @@ class Solution {
 
 
     /**
-     * 类似41.缺失第一个正数的解法，需要交换数组
+     * 类似41.缺失第一个正数的解法，需要交换数组  1
      *
      * @param nums 待遍历的数组
      * @return 数组中重复的数据
@@ -95,7 +95,7 @@ class Solution {
         return res;
     }
 
-    private void swap(int[] nums, int index1, int index2) {
+    public void swap(int[] nums, int index1, int index2) {
         if (index1 == index2) {
             return;
         }
@@ -103,6 +103,8 @@ class Solution {
         nums[index1] = nums[index2];
         nums[index2] = temp;
     }
+
+    
 }
 // @lc code=end
 

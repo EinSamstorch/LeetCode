@@ -89,7 +89,7 @@ class Solution {
     /**
      * 方法一：哈希表（空间复杂度不符合要求）
      * 时间复杂度：O(N), 空间复杂度：O(N)
-     * 其实我们只需从最小的正整数 1开始，依次判断 2、 3 、44直到数组的长度 N 是否在数组中；
+     * 其实我们只需从最小的正整数 1开始，依次判断 2、 3 、4直到数组的长度 N 是否在数组中；
      * 如果当前考虑的数不在这个数组中，我们就找到了这个缺失的最小正整数；
      *
      * @param nums 待寻找的数组
@@ -103,7 +103,7 @@ class Solution {
             hashSet.add(num);
         }
 
-        for (int i = 0; i <= len; i++) {
+        for (int i = 1; i <= len; i++) {
             if (!hashSet.contains(i)) {
                 return i;
             }
