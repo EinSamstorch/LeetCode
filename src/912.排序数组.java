@@ -1,5 +1,10 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
+
+import jdk.nashorn.internal.runtime.arrays.ArrayLikeIterator;
 
 /*
  * @lc app=leetcode.cn id=912 lang=java
@@ -299,7 +304,7 @@ class Solution {
         // 先把原始数组赋值到一个临时数组中，然后回写数据
         int[] temp = nums.clone();
 
-        // 为了保证稳定性，从后往前赋值
+        // 为了保证稳定性，从后往前赋值（让数组按照原来的顺序排序）
         for (int i = len - 1; i >= 0; i--) {
             int index = count[temp[i] + OFFSET] - 1;
             nums[index] = temp[i];
@@ -309,12 +314,118 @@ class Solution {
         return nums;
     }
 
-    public int[] sortArray(int[] nums) {
+    public int[] sortArray8(int[] nums) {
         Arrays.sort(nums);
         return nums;
     }
 
+    public int[] sortArray9(int[] nums) {
+        int len = nums.length;
+        // 预处理，让所有的数都大于等于0，这样才可以使用基数排序
+        for (int i = 0; i < len; i++) {
+            nums[i] += OFFSET;
+        }
+        // 1. 找出最大的数字
+        int maxVal = Arrays.stream(nums).max().getAsInt();
 
+        // 2. 计算出最大的数字有几位，这个数值决定了我们要将整个数组看几遍
+        int maxLen = getMaxLen(maxVal);
+
+        // 计数排序时需要使用的计数数组和临时数组
+        int[] temp = new int[len];
+
+        // 表征关键字的量：除数
+        // 1 表示按个位关键字排序
+        // 10 表示按照十位关键字排序
+        // 100 表示按照百位关键字排序
+        int divisor = 1;
+        // 有几位数，外层就得循环几次
+        for (int i = 0; i < maxLen; i++) {
+            // 每一步都要使用计数排序，保证排序结果是稳定的
+            // 这一步需要额外的空间保存结果集，因此把结果保存在temp中
+            countingSort(nums, temp, divisor);
+            // 交换nums和temp的引用，下一轮还是按照nums做计数排序
+            int[] t = nums;
+            nums = temp;
+            temp = t;
+            // divisor自增，表示采用低位优先的基数排序
+            divisor *= 10;
+        }
+
+        int[] res = new int[len];
+        for (int i = 0; i < len; i++) {
+            res[i] = nums[i] - OFFSET;
+        }
+        return res;
+    }
+
+    private void countingSort(int[] nums, int[] res, int divisor) {
+        int len = nums.length;
+        int[] count = new int[10];
+        // 1. 计算计数数组
+        for (int i = 0; i < len; i++) {
+            // 计算数位上的是几，先取个位，再十位，百位
+            int remainder = (nums[i] / divisor) % 10;
+            count[remainder]++;
+        }
+
+        // 2. 变成前缀和数组
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        // 3. 从后向前赋值,这是为了保证排序的稳定性
+        for (int i = len - 1; i >= 0; i--) {
+            int remainder = (nums[i] / divisor) % 10;
+            int index = count[remainder] - 1;
+            res[index] = nums[i];
+            count[remainder]--;
+        }
+    }
+
+    /**
+     * 获取一个整数的最大位数
+     */
+    private int getMaxLen(int num) {
+        int maxLen = 0;
+        while (num > 0) {
+            num /= 10;
+            maxLen++;
+        }
+        return maxLen;
+    }
+
+    public int[] sortArray(int[] nums) {
+        int len = nums.length;
+        // 计算最大值和最小值
+        int min = Arrays.stream(nums).min().getAsInt();
+        int max = Arrays.stream(nums).max().getAsInt();
+
+        // 计算桶的数量
+        int bucketNum = (max - min) / len + 1;
+        List<List<Integer>> bucketList = new ArrayList<>(bucketNum);
+        for (int i = 0; i < bucketNum; i++) {
+            bucketList.add(new ArrayList<Integer>());
+        }
+        // 将每个元素放入桶
+        for (int i = 0; i < len; i++) {
+            int num = (nums[i] - min) / len;
+            bucketList.get(num).add(nums[i]);
+        }
+        // 对每个桶进行排序
+        for (int i = 0; i < bucketNum; i++) {
+            Collections.sort(bucketList.get(i));
+        }
+        int index = 0;
+        // 将桶中的元素赋值到原序列
+        for (int i = 0; i < bucketNum; i++) {
+            for (int j = 0; j < bucketList.get(i).size(); j++) {
+                nums[index] = bucketList.get(i).get(j);
+                index++;
+            }
+        }
+        return nums;
+    }
 }
 // @lc code=end
 
