@@ -55,6 +55,8 @@
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 // @lc code=start
 class Solution {
@@ -88,12 +90,13 @@ class Solution {
         }
     }
 
-    public int[] maxSlidingWindow(int[] nums, int k) {
+    public int[] maxSlidingWindow1(int[] nums, int k) {
         MonotonicQueue windows = new MonotonicQueue();
         ArrayList<Integer> res = new ArrayList<>();
 
         for (int i = 0; i < nums.length; i++) {
             if (i < k - 1) {
+                // 先把窗口的前k - 1填满
                 windows.push(nums[i]);
             } else {
                 windows.push(nums[i]);
@@ -122,6 +125,29 @@ class Solution {
             output[i] = max;
         }
         return output;
+    }
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        int len = nums.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>(){
+            public int compare(int[] pair1, int[] pair2) {
+                return pair1[0] != pair2[0] ? pair2[0] - pair1[0] : pair2[1] - pair1[1];
+            }
+        });
+        for (int i = 0; i < k; i++) {
+            pq.offer(new int[]{nums[i], i});
+        }
+        int[] ans = new int[len - k + 1];
+        ans[0] = pq.peek()[0];
+        for (int i = k; i < len; i++) {
+            pq.offer(new int[]{nums[i], i});
+            // 那个最大值可能并不在滑动窗口中，
+            while (pq.peek()[1] <= i - k) {
+                pq.poll();
+            }
+            ans[i - k + 1] = pq.peek()[0];
+        }
+        return ans;
     }
 }
 // @lc code=end

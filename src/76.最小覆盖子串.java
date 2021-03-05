@@ -34,9 +34,6 @@
  */
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 // @lc code=start
 class Solution {
@@ -50,8 +47,11 @@ class Solution {
         int[] have = new int[128];
 
         //将目标字符串指定字符的出现次数记录
-        for (int i = 0; i < t.length(); i++) {
-            need[t.charAt(i)]++;
+        // for (int i = 0; i < t.length(); i++) {
+        //     need[t.charAt(i)]++;
+        // }
+        for (char c : t.toCharArray()) {
+            need[c]++;
         }
 
         //分别为左指针，右指针，最小长度(初始值为一定不可达到的长度)
@@ -96,6 +96,51 @@ class Solution {
         }
         //返回的为以记录的起始位置为起点，记录的最短长度为距离的指定字符串中截取的子串
         return s.substring(start, start + min);
+    }
+
+    public String minWindow1(String s, String t) {
+        HashMap<Character, Integer> need = new HashMap<>();
+        HashMap<Character, Integer> window = new HashMap<>();
+        // need存放的不重复的字符出现次数
+        for (char c : t.toCharArray()) {
+            need.put(c, need.getOrDefault(c, 0) + 1);
+        }
+
+        int left = 0, right = 0;
+        // valid表示是否满足了t中的字符，不算重复的
+        int valid = 0;
+        // 记录最小覆盖字串的起始索引以及长度
+        int start = 0, len = Integer.MAX_VALUE;
+
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            right++;
+            // 判断取出来的字符是否在需要的map中
+            if (need.containsKey(c)) {
+                window.put(c, window.getOrDefault(c, 0) + 1);
+                if (window.get(c).equals(need.get(c))) {
+                    valid++;
+                }
+            }
+            // 判断是否需要收缩
+            while (valid == need.size()) {
+                // 更新最小覆盖字串
+                if (right - left < len) {
+                    start = left;
+                    len = right - left;
+                }
+                char c1 = s.charAt(left);
+                left++;
+                // 进行窗口内数据的一系列更新
+                if (need.containsKey(c1)) {
+                    if (window.get(c1).equals(need.get(c1))) {
+                        valid--;
+                    }
+                    window.put(c1, window.getOrDefault(c1, 0) - 1);
+                }
+            }
+        }
+        return len == Integer.MAX_VALUE ? "" : s.substring(start, start + len);
     }
 }
 // @lc code=end

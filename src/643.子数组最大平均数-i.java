@@ -54,7 +54,7 @@ class Solution {
     /**
      * 滑动窗口的算法
      */
-    public double findMaxAverage(int[] nums, int k) {
+    public double findMaxAverage2(int[] nums, int k) {
         double sum = 0, maxSum = 0;
         
         for (int i = 0; i < k; i++) {
@@ -67,6 +67,30 @@ class Solution {
         }
 
         return maxSum / k;
+    }
+
+    // 哈哈哈哈，自己想的滑动窗口的算法，效率和上一个一样
+    public double findMaxAverage(int[] nums, int k) {
+        int len = nums.length;
+        int left = 0, right = 0;
+        // 注意Double.MIN_VALUE是最小的非负整数，而不是最小的负数
+        // 所以要得到最小的负数，要改写成-Double.MAX_VALUE
+        double maxAverage = -Double.MAX_VALUE;
+        double sum = 0;
+
+        while (right < len) {
+            sum += nums[right];
+            right++;
+            if (right - left < k) {
+                continue;
+            }
+            if (right - left > k) {
+                sum -= nums[left];
+                left++;
+            }
+            maxAverage = Math.max(maxAverage, sum / k);
+        }
+        return maxAverage;
     }
 }
 // @lc code=end

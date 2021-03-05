@@ -81,7 +81,7 @@ class Solution {
      * @param k
      * @return
      */
-    public int numSubarrayProductLessThanK(int[] nums, int k) {
+    public int numSubarrayProductLessThanK2(int[] nums, int k) {
         if (k <= 1) {
             return 0;
         }
@@ -92,6 +92,34 @@ class Solution {
                 product /= nums[left++];
             }
             ans += right - left + 1;
+        }
+        return ans;
+    }
+
+    /**
+     * 和992题好像
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int len = nums.length;
+        if (k < 2) {
+            return 0;
+        }
+        int left = 0, right = 0;
+        int product = 1;
+        int ans = 0;
+
+        while (right < len) {
+            product *= nums[right];
+            right++;
+            
+            while (product >= k) {
+                product /= nums[left];
+                left++;
+            }
+            ans += right - left;
         }
         return ans;
     }

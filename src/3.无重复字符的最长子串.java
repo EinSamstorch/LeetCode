@@ -44,7 +44,7 @@ import java.util.Set;
 
 // @lc code=start
 class Solution {
-    public int lengthOfLongestSubstring2(String s) {
+    public int lengthOfLongestSubstring1(String s) {
         char[] chars = s.toCharArray();
         int len = chars.length;
         int maxLen = 0;
@@ -65,7 +65,7 @@ class Solution {
         return maxLen;
     }
 
-    public int lengthOfLongestSubstring(String s) {
+    public int lengthOfLongestSubstring2(String s) {
         char[] chars = s.toCharArray();
         int len = s.length();
         // 右指针
@@ -86,6 +86,30 @@ class Solution {
             maxLen = Math.max(maxLen, right - left);
         }
         return maxLen;
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        char[] chars = s.toCharArray();
+        int len = s.length();
+        int left = 0, right = 0;
+
+        int[] window = new int[128];
+        int res = 0;
+
+        while (right < len) {
+            char curChar = chars[right];
+            window[curChar]++;
+            right++;
+            // 只要出现了重复，窗口右边界停止，左边界向右移动，直到滑动窗口内没有重复的元素
+            while (window[curChar] == 2) {
+                // 左边界向右走
+                char leftChar = chars[left];
+                window[leftChar]--;
+                left++;
+            }
+            res = Math.max(res, right - left);
+        }
+        return res;
     }
 }
 // @lc code=end

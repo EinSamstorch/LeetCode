@@ -59,7 +59,7 @@ class Solution {
     /**
      * 双指针 滑动窗口
      */
-    public int minSubArrayLen(int target, int[] nums) {
+    public int minSubArrayLen2(int target, int[] nums) {
         int start = 0, end = 0;
         int ans = Integer.MAX_VALUE;
         int sum = 0;
@@ -79,6 +79,25 @@ class Solution {
         return ans == Integer.MAX_VALUE ? 0 : ans;
     }
 
+    public int minSubArrayLen(int target, int[] nums) {
+        int left = 0, right = 0;
+        int ans = Integer.MAX_VALUE;
+        int sum = 0;
+
+        while (right < nums.length) {
+            // 对状态作修改
+            sum += nums[right];
+            right++;
+            // 满足条件
+            while (sum >= target) {
+                ans = Math.min(ans, right - left);
+                // 对状态作修改，好让程序后面检测不到满足条件
+                sum -= nums[left];
+                left++;
+            }
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
 
 }
 // @lc code=end

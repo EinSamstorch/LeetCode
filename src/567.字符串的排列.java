@@ -130,14 +130,14 @@ class Solution {
 
     }
 
-    public boolean checkInclusion(String s1, String s2) {
+    public boolean checkInclusion4(String s1, String s2) {
         if (s1.length() > s2.length()) {
             return false;
         }
         // 数组长度初始化为128，省去减'a'的功夫
         int[] needs = new int[128];
         int[] inWindow = new int[128];
-        // 记录s1有多少中字母
+        // 记录s1有多少种字母
         Set<Character> set =  new HashSet<>();
         for (char ch : s1.toCharArray()) {
             needs[ch]++;
@@ -175,6 +175,77 @@ class Solution {
             inWindow[leftChar]--;
         }
         return false;
+    }
+
+    public boolean checkInclusion5(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+        char[] chars1 = s1.toCharArray();
+        char[] chars2 = s2.toCharArray();
+        int[] needs = new int[26];
+        int[] window = new int[26];
+        // needs数组用来统计s1中字符出现的频率
+        for (char ch : chars1) {
+            needs[ch - 'a']++;
+        }
+        int left = 0, right = 0;
+        
+        while (right < s2.length()) {
+            int curR = chars2[right] - 'a';
+            window[curR]++;
+            right++;
+            
+            while (window[curR] > needs[curR]) {
+                int curL = chars2[left] - 'a';
+                window[curL]--;
+                left++;
+            }
+            if (right - left == s1.length()) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    /**
+     * 该方法与上一个方法的唯一区别就是将new int[26] 换成了new int[128]
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+        char[] chars1 = s1.toCharArray();
+        char[] chars2 = s2.toCharArray();
+        // 用128的话，就省去了-'a'的步骤，用空间换时间
+        int[] needs = new int[128];
+        int[] window = new int[128];
+        // needs数组用来统计s1中字符出现的频率
+        for (char ch : chars1) {
+            needs[ch]++;
+        }
+        int left = 0, right = 0;
+        
+        while (right < s2.length()) {
+            int curR = chars2[right];
+            window[curR]++;
+            right++;
+            // 只要window中有一个不符合，就是不符合
+            while (window[curR] > needs[curR]) {
+                int curL = chars2[left];
+                window[curL]--;
+                left++;
+            }
+            if (right - left == s1.length()) {
+                return true;
+            }
+        }
+        return false;
+
     }
 
 }
