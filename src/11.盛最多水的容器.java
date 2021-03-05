@@ -6,7 +6,7 @@
 
 // @lc code=start
 class Solution {
-    public int maxArea(final int[] height) {
+    public int maxArea1(final int[] height) {
         int left = 0;
         int right = height.length - 1;
         int ans = 0;
@@ -17,6 +17,23 @@ class Solution {
                 ++left;
             }else {
                 --right;
+            }
+        }
+        return ans;
+    }
+
+    public int maxArea(final int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int ans = 0;
+
+        while (left < right) {
+            int area = Math.min(height[left], height[right]) * (right - left);
+            ans = Math.max(ans, area);
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right++;
             }
         }
         return ans;

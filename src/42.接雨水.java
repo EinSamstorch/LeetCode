@@ -36,7 +36,7 @@ class Solution {
      * @param height 高度数组
      * @return 接的雨水数量
      */
-    public int trap(int[] height) {
+    public int trap1(int[] height) {
         int left = 0;
         int right = height.length - 1;
         int leftMax = 0, rightMax = 0;
@@ -63,7 +63,7 @@ class Solution {
      * @param height 高度数组
      * @return 接的雨水数量
      */
-    public int trap2(int[] height) {
+    public int trap(int[] height) {
         // 初始化
         int ans = 0;
         int len = height.length;
@@ -98,7 +98,7 @@ class Solution {
      * @param height 高度数组
      * @return 接的雨水数量
      */
-    public int trap1(int[] height) {
+    public int trap2(int[] height) {
         int res = 0;
         int size = height.length;
 
