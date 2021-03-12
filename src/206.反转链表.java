@@ -45,7 +45,7 @@ class Solution {
      * 局部反转完成之后，pre和cur同时向前移动一个位置
      * 重复上述过程直到cur移到结尾
      */
-    public ListNode reverseList1(ListNode head) {
+    public ListNode reverseList(ListNode head) {
         ListNode pre = null;
         ListNode cur = head;
         while (cur != null) {
@@ -57,7 +57,7 @@ class Solution {
         return pre;
     }
 
-    public ListNode reverseList(ListNode head) {
+    public ListNode reverseList1(ListNode head) {
         // base case
         if (head == null || head.next == null) {
             return head;

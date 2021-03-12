@@ -1,3 +1,6 @@
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 /*
  * @lc app=leetcode.cn id=23 lang=java
  *
@@ -99,7 +102,7 @@ class Solution {
     }
 
     // 方法二：归并的方法
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKLists2(ListNode[] lists) {
         if (lists == null || lists.length == 0) {
             return null;
         }
@@ -114,6 +117,37 @@ class Solution {
         ListNode l1 = merge(lists, left, mid);
         ListNode l2 = merge(lists, mid + 1, right);
         return mergeTwoLists(l1, l2);
+    }
+
+    // 方法三：优先队列
+    public ListNode mergeKLists(ListNode[] lists) {
+        int len = lists.length;
+        if (len == 0) {
+            return null;
+        }
+        PriorityQueue<ListNode> queue = new PriorityQueue<>(len, Comparator.comparingInt(a -> a.val));
+        ListNode dummyNode = new ListNode(-1);
+        ListNode curNode = dummyNode;
+
+        for (ListNode list : lists) {
+            if (list != null) {
+                // 这一步很关键，不能也没有必要将空对象加入倒优先队列中
+                queue.add(list);
+            }
+        }
+        while (!queue.isEmpty()) {
+            // 优先队列非空才能出队
+            ListNode node = queue.poll();
+            // 当前节点的next指针指向出队元素
+            curNode.next = node;
+            // 当前指针向前移动一个元素，指向了刚刚出队的那个元素
+            curNode = curNode.next;
+            if (curNode.next != null) {
+                // 只有非空节点才能加入到优先队列中
+                queue.add(curNode.next);
+            }
+        }
+        return dummyNode.next;
     }
 }
 // @lc code=end

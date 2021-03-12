@@ -80,7 +80,6 @@ class Solution {
         }
         dummy.next = null;
         return preHead.next;
-        
     }
 
     /**
@@ -101,6 +100,7 @@ class Solution {
             odd = odd.next = even.next;
             even = even.next = odd.next;
         }
+        // 扫描结束时，奇偶节点是分开的
         odd.next = evenHead;
         return head;
     }

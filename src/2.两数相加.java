@@ -83,7 +83,7 @@ class Solution {
             sum = sum % 10;
             cur.next = new ListNode(sum);
             cur = cur.next;
-            if (l1 != null) {
+            if (l1 != null) {   
                 l1  = l1.next;
             }
             if (l2 != null) {
