@@ -2,6 +2,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
+
 /*
  * @lc app=leetcode.cn id=341 lang=java
  *
@@ -56,31 +58,16 @@ import java.util.List;
  *     public List<NestedInteger> getList();
  * }
  */
+/**
+ * 其实就是深度优先搜索
+ */
 public class NestedIterator implements Iterator<Integer> {
-
+    private List<Integer> list = new ArrayList<>();
+    private ListIterator<Integer> it;
     
-    private Iterator<Integer> it;
     public NestedIterator(List<NestedInteger> nestedList) {
-        // 存放将nestedlist打平的结果
-        List<Integer> result = new LinkedList<>();
-        for (NestedInteger node : nestedList) {
-            traverse(node, result);
-        }
-        // 得到result列表的迭代器
-        this.it = result.iterator();
-    }
-
-    /**
-     * 遍历以root为根的多叉树，将叶子节点的值加入result列表
-     */
-    private void traverse(NestedInteger root, List<Integer> result) {
-        if (root.isInteger()) {
-            result.add(root.getInteger());
-            return;
-        }
-        for (NestedInteger child : root.getList()) {
-            traverse(child, result);
-        }
+        dfs(nestedList);
+        it = list.listIterator();
     }
 
     @Override
@@ -92,29 +79,19 @@ public class NestedIterator implements Iterator<Integer> {
     public boolean hasNext() {
         return it.hasNext();
     }
+    
+    private void dfs(List<NestedInteger> nestedList){
+        for (NestedInteger nestedinteger: nestedList) {
+            if (nestedinteger.isInteger()) {
+                list.add(nestedinteger.getInteger());
+            } else {
+                dfs(nestedinteger.getList());
+            }
+        }
+    }
 }
 
-// class NestedInteger{
-//     private Integer val;
-//     private List<NestedInteger> list;
 
-//     public NestedInteger(Integer val) {
-//         this.val = val;
-//         this.list = null;
-//     }
-
-//     public boolean isInteger() {
-//         return val != null;
-//     }
-
-//     public Integer getInteger() {
-//         return this.val;
-//     }
-
-//     public List<NestedInteger> getList() {
-//         return this.list;
-//     }
-// }
 
 /**
  * Your NestedIterator object will be instantiated and called as such:

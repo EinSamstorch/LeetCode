@@ -1,3 +1,8 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+import org.graalvm.compiler.hotspot.stubs.CreateExceptionStub;
+
 /*
  * @lc app=leetcode.cn id=42 lang=java
  *
@@ -36,7 +41,7 @@ class Solution {
      * @param height 高度数组
      * @return 接的雨水数量
      */
-    public int trap1(int[] height) {
+    public int trap(int[] height) {
         int left = 0;
         int right = height.length - 1;
         int leftMax = 0, rightMax = 0;
@@ -54,7 +59,6 @@ class Solution {
             }
         }
         return ans;
-
     }
 
     /**
@@ -63,7 +67,7 @@ class Solution {
      * @param height 高度数组
      * @return 接的雨水数量
      */
-    public int trap(int[] height) {
+    public int trap1(int[] height) {
         // 初始化
         int ans = 0;
         int len = height.length;
@@ -116,6 +120,30 @@ class Solution {
             res += Math.min(maxLeft, maxRight) - height[i];
         }
         return res;
+    }
+
+    public int trap3(int[] height) {
+        int sum = 0;
+        Deque<Integer> stack = new ArrayDeque<>();
+        int current = 0;
+        while (current < height.length) {
+            // 如果栈不为空，且当前指向的高度大于栈顶高度就一直循环
+            while (!stack.isEmpty() && height[current] > height[stack.peek()]) {
+                int mid = height[stack.peek()];
+                stack.pop();
+                if (stack.isEmpty()) {
+                    break;
+                }
+                // 两墙之间的距离
+                int distance = current - stack.peek() - 1;
+                int min = Math.min(height[stack.peek()], height[current]);
+                sum = sum + distance * (min - mid);
+            }
+            // 当前指针指向的墙入栈
+            stack.push(current);
+            current++;
+        }
+        return sum;
     }
 }
 // @lc code=end

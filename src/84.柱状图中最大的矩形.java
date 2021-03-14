@@ -101,7 +101,7 @@ class Solution {
     }
 
     /**
-     * 维护一个从栈顶到栈底单调递减的栈
+     * 维护一个从栈底到栈顶单调递增的栈
      * @param heights
      * @return
      */
@@ -135,6 +135,7 @@ class Solution {
 
         int ans = 0;
         for (int i = 0; i < len; i++) {
+            // right[i] - left[i] - 1是因为两边都不算
             ans = Math.max(ans, (right[i] - left[i] - 1) * heights[i]);
         }
         return ans;
