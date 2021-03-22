@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 /*
  * @lc app=leetcode.cn id=621 lang=java
@@ -111,7 +114,7 @@ class Solution {
      * 填桶思路
      * 卧槽，这个方法太巧妙了吧
      */
-    public int leastInterval(char[] tasks, int n) {
+    public int leastInterval3(char[] tasks, int n) {
         int[] counts = new int[26];
         for (char c : tasks) {
             counts[c - 'A']++;
@@ -132,7 +135,32 @@ class Solution {
         }
         
         return Math.max((n + 1) * (max - 1) + maxCount, tasks.length);
+    }
 
+    public int leastInterval(char[] tasks, int n) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char task : tasks) {
+            map.put(task, map.getOrDefault(task, 0) + 1);
+        }
+
+        // 任务总数
+        int m = map.size();
+        // nextValid表示因冷却限制，最早可以执行的时间
+        List<Integer> nextValid = new ArrayList<>();
+        // rest表示最早可以执行的时间
+        List<Integer> rest = new ArrayList<>();
+        Set<Map.Entry<Character, Integer>> entrySet = map.entrySet();
+        for (Map.Entry<Character, Integer> entry : entrySet) {
+            int value = entry.getValue();
+            nextValid.add(1);
+            rest.add(value);
+        }
+
+        int time = 0;
+        for (int i = 0; i < tasks.length; i++) {
+            time++;
+
+        }
     }
 
 }
