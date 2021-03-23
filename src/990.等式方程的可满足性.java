@@ -72,18 +72,15 @@
 // @lc code=start
 class Solution {
     public boolean equationsPossible(String[] equations) {
-        int[] parent = new int[128];
-        // 底层结构是数组，用于表示节点指向的父节点
-        // 初始化的时候指向自己
-        for (int i = 0; i < 128; i++) {
-            parent[i] = i;
-        }
+        // 为了不-'a'，用128初始化
+        UnionFind uf = new UnionFind(128);
+
         // 扫描所有等式，将两边相等的点合并
         for (String str : equations) {
             if (str.charAt(1) == '=') {
                 int index1 = str.charAt(0);
                 int index2 = str.charAt(3);
-                union(parent, index1, index2);
+                uf.union(index1, index2);
             }
         }
         // 扫描所有的不等式，检查每一个不等式的两边顶点是不是在同一个分量中
@@ -91,34 +88,39 @@ class Solution {
             if (str.charAt(1) == '!') {
                 int index1 = str.charAt(0);
                 int index2 = str.charAt(3);
-                if (find(parent, index1) == find(parent, index2)) {
+                if (uf.find(index1) == uf.find(index2)) {
                     return false;
                 }
             }
         }
         return true;
     }
+}
 
-    /**
-     * 将一个集合的根节点指向另一个集合的根节点
-     */
-    private void union(int[] parent, int index1, int index2) {
-        parent[find(parent, index1)] = find(parent, index2);
+class UnionFind {
+    int[] parent;
+
+    public UnionFind(int n) {
+        parent = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+        }
     }
 
-    /**
-     * 找到根节点
-     */
-    private int find(int[] parent, int index) {
-        // 隔代压缩
-        // while (parent[index] != index) {
-        //     parent[index] = parent[parent[index]];
-        //     index = parent[index];
-        // }
-        // return index;
+    public int find(int x) {
+        if (x != parent[x]) {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
 
-        // 完全压缩
-        return index == parent[index] ? index : (parent[index] = find(parent, parent[index]));
+    public void union(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+        if (rootX == rootY) {
+            return;
+        }
+        parent[rootX] = rootY;
     }
 }
 // @lc code=end
