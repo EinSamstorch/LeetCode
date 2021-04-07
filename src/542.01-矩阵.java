@@ -67,24 +67,24 @@ class Solution {
     /**
      * 对于Tree的BFS遍历（单源BFS），只要将root入队列，然后一层一层无脑遍历就好
      * 对于图（多源BFS）：
-     *      1.需要将多个源点都入队  
+     *      1.图可以有多个源点，需要将多个源点都入队  
      *      2. Tree是有向的，不需要标记是否访问过，而图是无向的，需要标记
      *      并且为了防止某个节点多次入队，需要在入队之前就将其标记为已访问
-     * @param matrix
-     * @return
      */
     public int[][] updateMatrix(int[][] matrix) {
         Queue<int[]> queue = new LinkedList<>();
         int m = matrix.length, n = matrix[0].length;
+        // 最好使用visited数组和dist数组，不改变原数组
+        boolean[][] visited = new boolean[m][n];
+        int[][] dist = new int[m][n];
         
         // 首先将所有的0都入队列，并且将1的位置设置为-1，表示该位置是 未被访问过的1
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 if (matrix[i][j] == 0) {
                     queue.offer(new int[]{i, j});
-                } else {
-                    matrix[i][j] = -1;
-                }
+                    visited[i][j] = true;
+                } 
             } 
         }
 
@@ -99,13 +99,14 @@ class Solution {
                 int newY = y + dy[i];
                 // 如果四领域的点是-1，表示这个点是未被访问过的1
                 // 所以这个点到0的距离就可以更新成matrix[x][y] + 1.
-                if (newX >= 0 && newX < m && newY >= 0 && newY < n && matrix[newX][newY] == -1) {
-                    matrix[newX][newY] = matrix[x][y] + 1;
+                if (newX >= 0 && newX < m && newY >= 0 && newY < n && !visited[newX][newY]) {
+                    dist[newX][newY] = dist[x][y] + 1;
                     queue.offer(new int[] {newX, newY});
+                    visited[newX][newY] = true;
                 }
             }
         }
-        return matrix;
+        return dist;
     }
 }
 // @lc code=end

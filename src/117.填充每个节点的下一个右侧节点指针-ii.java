@@ -1,25 +1,19 @@
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import org.w3c.dom.Node;
-
 /*
- * @lc app=leetcode.cn id=116 lang=java
+ * @lc app=leetcode.cn id=117 lang=java
  *
- * [116] 填充每个节点的下一个右侧节点指针
+ * [117] 填充每个节点的下一个右侧节点指针 II
  *
- * https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/description/
+ * https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/description/
  *
  * algorithms
- * Medium (68.57%)
- * Likes:    378
+ * Medium (59.53%)
+ * Likes:    382
  * Dislikes: 0
- * Total Accepted:    94.1K
- * Total Submissions: 137.2K
- * Testcase Example:  '[1,2,3,4,5,6,7]'
+ * Total Accepted:    66.1K
+ * Total Submissions: 110.9K
+ * Testcase Example:  '[1,2,3,4,5,null,7]'
  *
- * 给定一个 完美二叉树 ，其所有叶子节点都在同一层，每个父节点都有两个子节点。二叉树定义如下：
+ * 给定一个二叉树
  * 
  * 
  * struct Node {
@@ -49,19 +43,23 @@ import org.w3c.dom.Node;
  * 
  * 
  * 
- * 输入：root = [1,2,3,4,5,6,7]
- * 输出：[1,#,2,3,#,4,5,6,7,#]
- * 解释：给定二叉树如图 A 所示，你的函数应该填充它的每个 next 指针，以指向其下一个右侧节点，如图 B
- * 所示。序列化的输出按层序遍历排列，同一层节点由 next 指针连接，'#' 标志着每一层的结束。
- * 
+ * 输入：root = [1,2,3,4,5,null,7]
+ * 输出：[1,#,2,3,#,4,5,7,#]
+ * 解释：给定二叉树如图 A 所示，你的函数应该填充它的每个 next 指针，以指向其下一个右侧节点，如图 B 所示。序列化输出按层序遍历顺序（由 next
+ * 指针连接），'#' 表示每层的末尾。
  * 
  * 
  * 
  * 提示：
  * 
  * 
- * 树中节点的数量少于 4096
- * -1000 
+ * 树中的节点数小于 6000
+ * -100 
+ * 
+ * 
+ * 
+ * 
+ * 
  * 
  * 
  */
@@ -91,32 +89,6 @@ class Node {
 */
 
 class Solution {
-    // 递归法
-    public Node connect1(Node root) {
-        if (root == null) {
-            return null;
-        }
-        connectTwoNode (root.left, root.right);
-        return root;
-    }
-
-    public void connectTwoNode(Node node1, Node node2) {
-        if (node1 == null || node2 == null) {
-            return;
-        }
-        // 前序遍历位置
-        // 将传入的两个节点连接
-        node1.next = node2;
-
-        // 连接相同父节点的两个节点
-        connectTwoNode(node1.left, node1.right);
-        connectTwoNode(node2.left, node2.right);
-        // 连接不同父节点的两个子节点
-        connectTwoNode(node1.right, node2.left);
-    }
-
-
-    // 迭代解法
     public Node connect(Node root) {
         if (root == null) {
             return root;

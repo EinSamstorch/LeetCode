@@ -123,10 +123,13 @@ class Solution {
         TreeNode node = root;
         while (!stack.isEmpty() || node != null) {
             while (node != null) {
+                 // 每遇到一个节点，就把它加入结果集，并把该节点保存到中间结果中
                 res.add(node.val);
                 stack.push(node);
+                // 先遍历左子树，一直走到空
                 node = node.left;
             }
+            // 左子树走到空，就从获取已经遍历过左子树的中间结果，将它出栈，并遍历它的右子树
             node = stack.pop();
             node = node.right;
         }
@@ -156,9 +159,6 @@ class Solution {
         }
         return res;
     }
-
-
-
 }
 // @lc code=end
 

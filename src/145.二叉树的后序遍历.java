@@ -75,8 +75,6 @@ class Solution {
 
     /**
      * 迭代1
-     * @param root
-     * @return
      */
     public List<Integer> postorderTraversal2(TreeNode root) {
         List<Integer> res = new ArrayList<>();
@@ -97,6 +95,7 @@ class Solution {
                 prev = root;
                 root = null;
             } else {
+                // 右子树为空的时候还要再次入栈
                 stack.push(root);
                 root = root.right;
             }

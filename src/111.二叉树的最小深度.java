@@ -104,7 +104,7 @@ class Solution {
     /**
      * 深度优先搜索
      */
-    public int minDepth(TreeNode root) {
+    public int minDepth2(TreeNode root) {
         if (root == null) {
             return 0;
         }
@@ -119,6 +119,21 @@ class Solution {
             minDepth = Math.min(minDepth(root.right), minDepth);
         }
         return minDepth + 1;
+    }
+
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = minDepth(root.left);
+        int rightHeight = minDepth(root.right);
+        if (leftHeight == 0) {
+            return rightHeight + 1;
+        } else if (rightHeight == 0) {
+            return leftHeight + 1;
+        } else {
+            return Math.min(leftHeight, rightHeight) + 1;
+        }
     }
 }
 // @lc code=end

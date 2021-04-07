@@ -93,8 +93,6 @@ import javax.swing.tree.TreeNode;
 class Solution {
     /**
      * 递归
-     * @param root
-     * @return
      */
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
@@ -121,15 +119,19 @@ class Solution {
         }
         Deque<TreeNode> stack = new LinkedList<>();
         while (root != null || !stack.isEmpty()) {
+            //不断往左子树方向走，每走一次就将当前节点保存到栈中
+			//这是模拟递归的调用
             while (root != null) {
                 stack.push(root);
                 root = root.left;
             }
+            //当前节点为空，说明左边走到头了，从栈中弹出节点并保存
+			//然后转向右边节点，继续上面整个过程
             root = stack.pop();
             res.add(root.val);
             root = root.right;
         }
-
+        return res;
     }
 }
 // @lc code=end

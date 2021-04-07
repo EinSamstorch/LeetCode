@@ -64,30 +64,19 @@ class Solution {
      * 递归的方法
      */
     public boolean isValidBST(TreeNode root) {
-        return helper(root, null, null);
+        return helper(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    public boolean helper(TreeNode node, Integer lower, Integer upper) {
+    public boolean helper(TreeNode node, long lower, long upper) {
         if (node == null) {
             return true;
         }
         int val = node.val;
-        if (lower != null && val <= lower) {
+        if (val <= lower || val >= upper) {
             return false;
         }
-        if (upper != null && val >= upper) {
-            return false;
-        }
-        // // 递归调用右子树的时候，我们需要把下界lower改为root.val
-        // if (!helper(node.right, val, upper)) {
-        //     return false;
-        // }
-        // // 递归调用左子树的时候， 将上界upper改为root.val
-        // if (!helper(node.left, lower, val)) {
-        //     return false;
-        // }
-        // return true;
 
+        // 限定左子树的最大值是 root.val，右子树的最小值是 root.val
         return helper(node.right, val, upper) && helper(node.left, lower, val);
     }
 

@@ -43,8 +43,6 @@
 
 // @lc code=start
 
-import javax.swing.tree.TreeNode;
-
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -61,7 +59,10 @@ import javax.swing.tree.TreeNode;
  * }
  */
 class Solution {
-    public void flatten1(TreeNode root) {
+    /**
+     * 递归的方法
+     */
+    public void flatten(TreeNode root) {
         if (root == null) {
             return;
         }

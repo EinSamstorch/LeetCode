@@ -56,26 +56,25 @@ class Solution {
     }
 
     private TreeNode build(int[] inorder, int inStart, int inEnd, int[] postorder, int postStart, int postEnd) {
-        // 必须要有这个判断
-        if (inStart > inEnd) {
+        // base case
+        if (inStart > inEnd || postStart > postEnd) {
             return null;
         }
-        // rootVal对应的值是后序遍历的最后一个元素
+        // rootVal对应的值是后序遍历的最后一个值
         int rootVal = postorder[postEnd];
-        // rootVal在中序遍历中的索引
+        // 找到rootVal在中序遍历中对应的结果
         int index = 0;
         for (int i = inStart; i <= inEnd; i++) {
-            if (inorder[i] == rootVal) {
+            if (rootVal == inorder[i]) {
                 index = i;
-                break;
             }
         }
-        // 确定左子树的长度
         int leftSize = index - inStart;
 
+        // 先构造出当前的根节点
         TreeNode root = new TreeNode(rootVal);
         root.left = build(inorder, inStart, index - 1, postorder, postStart, postStart + leftSize - 1);
-        root.right = build(inorder, index + 1, inEnd, postorder,  postStart + leftSize, postEnd - 1);
+        root.right = build(inorder, index + 1, inEnd, postorder, postStart + leftSize, postEnd - 1);
         return root;
     }
 }

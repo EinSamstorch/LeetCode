@@ -68,7 +68,7 @@ import javax.swing.tree.TreeNode;
  */
 class Solution {
     // 记录所有子树和出现的次数
-    HashMap<String, Integer> memo = new HashMap<>();
+    HashMap<String, Integer> count = new HashMap<>();
     // 记录重复的子树根节点
     List<TreeNode> res = new LinkedList<>();
 
@@ -85,14 +85,11 @@ class Solution {
         String right = traverse(root.right);
         // subTree描述以该节点为根的子树
         String subTree = left + "," + right + "," + root.val;
-
-        int freq = memo.getOrDefault(subTree, 0);
-        // 多次重复也只会被加入结果集一次
-        if (freq == 1) {
+        // 统计subTree出现次数
+        count.put(subTree, count.getOrDefault(subTree, 0) + 1);
+        if (count.get(subTree) == 2) {
             res.add(root);
         }
-        // 给子树对应的出现次数加一
-        memo.put(subTree, freq + 1);
         return subTree;
     }
 }

@@ -69,8 +69,6 @@ class Solution {
     /**
      * 实际上是求所有腐烂橘子到新鲜橘子的最短距离
      * 所以用bfs
-     * @param grid
-     * @return
      */
     public int orangesRotting(int[][] grid) {
         int[] dx = {1, -1, 0, 0};

@@ -69,10 +69,11 @@
  */
 class Solution {
     /**
-     * 深度优先搜索
+     * 深度优先搜索  前序遍历
+     * 首先明确根节点要做的事，然后剩下的交给框架
+     * 这题先判断根节点是否相等，然后递归的判断左右子树
      */
     public boolean isSameTree(TreeNode p, TreeNode q) {
-
         // 不判断的话会有空指针异常
         if (p == null && q == null) {
             return true;

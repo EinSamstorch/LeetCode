@@ -57,17 +57,16 @@ class Solution {
                     inorder, 0, inorder.length - 1);
     }
 
-    private TreeNode build(int[] preorder, int preStart, int perEnd, 
+    private TreeNode build(int[] preorder, int preStart, int preEnd, 
                         int[] inorder, int inStart, int inEnd) {
-        // if (preStart > perEnd) {
-        //     return null;
-        // }
-        if (inStart > inEnd) {
+        // base case
+        if (preStart > preEnd || inStart > inEnd) {
             return null;
         }
-        // root对应节点就是前序遍历数组的第一个元素
+
+        // root节点对应的值是前序遍历数组的第一个元素
         int rootVal = preorder[preStart];
-        // rootVal在中序遍历数组中的索引
+        // 找rootVal在中序遍历数组中对应的索引
         int index = 0;
         for (int i = inStart; i <= inEnd; i++) {
             if (inorder[i] == rootVal) {
@@ -75,14 +74,13 @@ class Solution {
                 break;
             }
         }
-
         int leftSize = index - inStart;
 
-        // 先构造出当前根节点
+        // 先构造出当前的根节点
         TreeNode root = new TreeNode(rootVal);
         // 递归构造左右子树
         root.left = build(preorder, preStart + 1, preStart + leftSize, inorder, inStart, index - 1);
-        root.right = build(preorder, preStart + leftSize + 1, perEnd, inorder, index + 1, inEnd);
+        root.right = build(preorder, preStart + leftSize + 1, preEnd, inorder, index + 1, inEnd);
         return root;
     }
 }
