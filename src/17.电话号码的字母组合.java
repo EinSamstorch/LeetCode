@@ -60,6 +60,7 @@ class Solution {
     private void backtrack(String combination, String nextDigits) {
         // 中止条件
         if (nextDigits.length() == 0) {
+            // 由于字符串的特殊性，combination每次都是新的，因此无需再创建拷贝
             output.add(combination);
             return;
         }

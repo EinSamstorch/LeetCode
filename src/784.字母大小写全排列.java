@@ -41,13 +41,10 @@ import java.util.List;
  * 
  * 
  */
-
+ 
 // @lc code=start
 class Solution {
-    /**
-     * 这一题用的回溯法,但是我还没完全搞懂
-     * 等刷完回溯法的题目后,再来看这一道题
-     */
+
     List<String> res = new ArrayList<>();
     public List<String> letterCasePermutation(String str) {
         char[] chars = str.toCharArray();
@@ -68,7 +65,6 @@ class Solution {
             dfs(chars, index + 1);
         } 
     }
-
 }
 // @lc code=end
 

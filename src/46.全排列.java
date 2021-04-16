@@ -35,32 +35,18 @@ import java.util.*;
 // @lc code=start
 class Solution {
 
+    // 使用一个动态数组保存所有可能的全排列
+    List<List<Integer>> res = new ArrayList<>();
 
     public List<List<Integer>> permute(int[] nums) {
-        // 使用一个动态数组保存所有可能的全排列
-        List<List<Integer>> res = new ArrayList<>(factorial(nums.length));
         if (nums.length == 0) {
             return res;
         }
         Deque<Integer> path = new ArrayDeque<>(nums.length);
         boolean[] used = new boolean[nums.length];
 
-        backtrack(nums, path, used, res);
+        backtrack(nums, path, used);
 
-        return res;
-    }
-
-    /**
-     * 计算阶乘，确定res所需要的空间
-     *
-     * @param n 数组长度
-     * @return n的阶乘
-     */
-    private int factorial(int n) {
-        int res = 1;
-        for (int i = 2; i <= n; i++) {
-            res *= i;
-        }
         return res;
     }
 
@@ -71,7 +57,7 @@ class Solution {
      * @param nums 一组不重复的数字
      * @param path 记录的路径
      */
-    private void backtrack(int[] nums, Deque<Integer> path, boolean[] used, List<List<Integer>> res) {
+    private void backtrack(int[] nums, Deque<Integer> path, boolean[] used) {
         // 中止条件，dfs的层数等于nums.length
         if (path.size() == nums.length) {
             /*
@@ -92,7 +78,7 @@ class Solution {
                 used[i] = true;
 
                 // 进入下一层决策树
-                backtrack(nums, path, used, res);
+                backtrack(nums, path, used);
 
                 // 状态重置，取消选择，进入上一层决策树
                 used[i] = false;

@@ -97,10 +97,6 @@ class Solution {
             int newY = y + dy[i];
             dfs(newX, newY);
         }
-        // dfs(x + 1, y);
-        // dfs(x - 1, y);
-        // dfs(x, y + 1);
-        // dfs(x, y - 1);
     }
 
     public void solve(char[][] board) {

@@ -46,10 +46,11 @@ class Solution {
         return res;
     }
 
-    private void backtrack(int[] nums, int index, List<Integer> track) {
+    private void backtrack(int[] nums, int begin, List<Integer> track) {
+        // 没有显示的递归终止
         res.add(new ArrayList<>(track));
 
-        for (int i = index; i < nums.length; i++) {
+        for (int i = begin; i < nums.length; i++) {
             // 做选择
             track.add(nums[i]);
             // 进入下一层决策树

@@ -40,9 +40,10 @@ import java.util.List;
 class Solution {
     List<List<Integer>> res = new ArrayList<>();
     public List<List<Integer>> subsetsWithDup(int[] nums) {
-        // 先把数字排序
+        // 先把数字排序，这是剪枝的前提
         Arrays.sort(nums);
         backtrack(nums, 0, new ArrayList<>());
+
         return res;
     }
 
@@ -50,7 +51,7 @@ class Solution {
         res.add(new ArrayList<>(track));
 
         for (int i = index; i < nums.length; i++) {
-            // 同一树枝上可以重复选取，同一树层上不能重复选取
+            // 同一树枝上可以重复选取，同一树层上不能重复选取 
             if (i > index && nums[i] == nums[i - 1]) {
                 continue;
             }

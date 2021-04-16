@@ -51,33 +51,25 @@ class Solution {
         return res;
     }
 
-    /**
-     * 回溯法
-     * @param k 剩下要找的k个数
-     * @param residue 剩余多少
-     * @param start 下一轮搜索的起点元素
-     * @param path 保存结果集里的元素 
-     */
-    private void backtrack(int k, int residue, int start, Deque<Integer> path) {
+
+    public void backtrack(int k, int residue, int start, Deque<Integer> path) {
         // 先判断结束条件
         if (residue < 0) {
             return;
         }
-        // 当k == 0 && residue == 0时，加入结果
-        if (k == 0 && residue == 0) {
+        if (path.size() == k && residue == 0) {
             res.add(new ArrayList<>(path));
             return;
         }
-
+        // 因为题目要求不能出现重复的组合
         for (int i = start; i <= 9; i++) {
             // 做选择
             path.addLast(i);
-            // 进入下一层决策树，k -1， residue -i， start加1 
-            backtrack(k - 1, residue - i, i + 1, path);
+            // 进入下一层决策树
+            backtrack(k, residue - i, i + 1, path);
+            // 回溯,撤销选择
             path.removeLast();
         }
-
-
     }
 }
 // @lc code=end
