@@ -70,7 +70,7 @@ class Solution {
     }
 
     // 使用备忘录进行优化
-    public int findTargetSumWays(int[] nums, int target) {
+    public int findTargetSumWays2(int[] nums, int target) {
         if (nums.length == 0) {
             return 0;
         }
@@ -100,6 +100,7 @@ class Solution {
 
         return result;
     }
+
 }
 // @lc code=end
 

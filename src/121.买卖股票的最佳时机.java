@@ -81,7 +81,6 @@ class Solution {
             dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
         }
         return dp[len - 1][0];
-
     }
 }
 // @lc code=end

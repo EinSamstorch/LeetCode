@@ -48,40 +48,9 @@
 
 // @lc code=start
 class Solution {
-    public boolean canPartition1(int[] nums) {
-        int sum = 0;
-        for (int num : nums) {
-            sum += num;
-        }
-        // 和为奇数时，不可能划分成两个想等的集合
-        if (sum / 2 != 0) {
-            return false;
-        } 
-        int target = sum / 2;
-        int n = nums.length;
-        // dp[i][j] = x表示，对于前i个物品，当前背包的容量为j时，若x为true，
-        // 则说明可以恰好将背包装满，若x为false，则说明不能恰好将背包装满。
-        boolean[][] dp = new boolean[n + 1][target + 1];
-        // base case
-        for (int i = 0; i <= n; i++) {
-            dp[i][0] = true;
-        }
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= sum; j++) {
-                // 首先，由于i是从 1 开始的，而数组索引是从 0 开始的，所以第i个物品的重量应该是nums[i-1]
-                if (j - nums[i - 1] < 0) {
-                    // 背包容量不足，不能装入第i个物品,取决于上一个状态
-                    dp[i][j] = dp[i - 1][j];
-                } else {
-                    // 背包容量够，装或者不装
-                    dp[i][j] = dp[i - 1][j] | dp[i - 1][j - nums[i - 1]];
-                }
-            }
-        }
-        return dp[n][sum];
-    }
 
-    // 不知道为啥上一个就是报错
+    // 转换成背包问题：给一个可装载重量为sum/2的背包和N个物品，每个物品的重量为nums[i]。
+    // 现在让你装物品，是否存在一种装法，能够恰好将背包装满？
     public boolean canPartition(int[] nums) {
         int n = nums.length;
         if (n < 2) {
@@ -105,15 +74,17 @@ class Solution {
             int num = nums[i];
             for (int j = 1; j <= target; j++) {
                 if (j >= num) {
+                    // 背包容量够时，可以选择装或者不装
+                    // 如果把nums[i]算入子集，或者说你把这第i个物品装入了背包，那么是否能够恰好装满背包，取决于状态dp[i - 1][j-nums[i-1]]。
                     dp[i][j] = dp[i - 1][j] | dp[i - 1][j - num];
                 } else {
+                    // 背包容量不够时，只能选择不装入背包
                     dp[i][j] = dp[i - 1][j];
                 }
             }
         }
         return dp[n - 1][target];
     }
-
 }
 // @lc code=end
 

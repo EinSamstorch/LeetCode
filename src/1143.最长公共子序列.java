@@ -61,7 +61,7 @@ class Solution {
     public int longestCommonSubsequence(String text1, String text2) {
         int len1 = text1.length() + 1;
         int len2 = text2.length() + 1;
-        // 对于s1[1..i]和s2[1..j]，它们的 LCS 长度是dp[i][j]。
+        // 对于s1[0..i - 1]和s2[0..j - 1]，它们的 LCS 长度是dp[i][j]。
         // 由于我们认为索引是从1开始，所以代码中需要调整下长度
         int[][] dp = new int[len1][len2];
 
