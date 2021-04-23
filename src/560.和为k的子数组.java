@@ -62,6 +62,7 @@ class Solution {
         int[] preSum = new int[len + 1];
         preSum[0] = 0;
         for (int i = 0; i < len; i++) {
+            // 这里要注意，我们的前缀和是从preSum[1]开始填充的
             preSum[i + 1] = preSum[i] + nums[i];
         }
         
@@ -69,6 +70,8 @@ class Solution {
         for (int left = 0; left < len; left++) {
             for (int right = left; right < len; right++) {
                 // 区间和[left, right],注意下表偏移
+                // 因为我们的nums[2]到nums[4]等于presum[5]-presum[2]
+                // 所以这样就可以得到nums[i,j]区间内的和
                 if (preSum[right + 1] - preSum[left] == k) {
                     count++;
                 }
@@ -80,7 +83,10 @@ class Solution {
     public int subarraySum(int[] nums, int k) {
         // key：前缀和，value：key对应的前缀和的个数
         Map<Integer, Integer> preSumFreq = new HashMap<>();
-        // 对于下标为0的元素，前缀和为0，个数为1.
+        // 细节，这里需要预存前缀和为 0 的情况，会漏掉前几位就满足的情况
+        // 例如输入[1,1,0]，k = 2 如果没有这行代码，则会返回0,漏掉了1+1=2，和1+1+0=2的情况
+        // 输入：[3,1,1,0] k = 2时则不会漏掉
+        // 因为presum[3] - presum[0]表示前面 3 位的和，所以需要map.put(0,1),垫下底
         preSumFreq.put(0, 1);
 
         int preSum = 0;

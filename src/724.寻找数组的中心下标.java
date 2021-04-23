@@ -66,9 +66,57 @@
 
 // @lc code=start
 class Solution {
-    public int pivotIndex(int[] nums) {
+    /**
+     * 自己做的暴力解法
+     */
+    public int pivotIndex1(int[] nums) {
+        int len = nums.length;
 
+        for (int i = 0; i < len; i++) {
+            int left = calculate(nums, 0, i - 1);
+            int right = calculate(nums, i + 1, len - 1);
+            if (left == right) {
+                return i;
+            }
+        }
+        return -1;
     }
+
+    /**
+     * 计算区间和
+     */
+    public int calculate(int[] nums, int left, int right) {
+        if (right == - 1 || left == nums.length) {
+            return 0;
+        }
+
+        int sum = 0;
+        for (int i = left; i <= right; i++) {
+            sum += nums[i];
+        }
+        return sum;
+    }
+
+    /**
+     * 前缀和
+     */
+    public int pivotIndex(int[] nums) {
+        int preSum = 0;
+        // 数组的和
+        for (int x : nums) {
+            preSum += x;
+        }
+        int leftSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            // 发现相同的情况
+            if (leftSum == preSum - nums[i] - leftSum) {
+                return i;
+            }
+            leftSum += nums[i];
+        }
+        return -1;
+    }
+
 }
 // @lc code=end
 
